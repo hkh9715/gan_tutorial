@@ -14,5 +14,5 @@ def data_loader(args,dataroot=r'C:\\tensor_code\\GAN_code\\dataset\\celeba-datas
     dataloader = torch.utils.data.DataLoader(dataset,
                                          batch_size=args.batchsize,
                                          shuffle=True,
-                                         num_workers=args.num_work)
+                                         num_workers=args.num_work,drop_last=True)
     return dataset,dataloader
