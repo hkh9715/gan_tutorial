@@ -27,7 +27,8 @@ parser.add_argument('--ngf', default=64, type=int)
 parser.add_argument('--ndf', default=64, type=int)
 parser.add_argument('--nc', default=3, type=int)
 
-parser.add_argument('--lr', default=0.0002, type=float)
+parser.add_argument('--d_lr', default=0.0001, type=float)
+parser.add_argument('--g_lr', default=0.0002, type=float)
 parser.add_argument('--beta1', default=0.5, type=float)
 parser.add_argument('--num_epochs', default=100, type=int)
 
@@ -69,8 +70,8 @@ def main(args):
     gloss=loss.g_loss
     dloss=loss.d_loss
 
-    optimizerD = optim.Adam(netD.parameters(), lr=args.lr, betas=(args.beta1, 0.999))
-    optimizerG = optim.Adam(netG.parameters(), lr=args.lr, betas=(args.beta1, 0.999))
+    optimizerD = optim.Adam(netD.parameters(), lr=args.d_lr, betas=(args.beta1, 0.999))
+    optimizerG = optim.Adam(netG.parameters(), lr=args.g_lr, betas=(args.beta1, 0.999))
 
     num_epochs=args.num_epochs
     val_epochs=args.val_epochs
