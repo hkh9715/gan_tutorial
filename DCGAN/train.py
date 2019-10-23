@@ -34,7 +34,7 @@ parser.add_argument('--num_epochs', default=100, type=int)
 parser.add_argument('--d_steps', default=2, type=int)
 parser.add_argument('--g_steps', default=2, type=int)
 
-parser.add_argument('--print_every', default=1, type=int)
+parser.add_argument('--print_every', default=100, type=int)
 parser.add_argument('--val_epochs',default=1,type=int)
 parser.add_argument('--checkpoint_every', default=100, type=int)
 
