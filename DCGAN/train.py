@@ -108,11 +108,10 @@ def main(args):
                 checkpoint['g_optim_state'] = optimizerG.state_dict()
 
             if i % args.print_every == 0:
-                print(epoch, num_epochs, i, len(dataloader),
-                    losses_d['D_total_loss'], losses_g['G_loss'], losses_d['D_real_loss'],time.time()-start)
+           
                 print('[%d/%d][%d/%d]\tLoss_D_total: %.4f\tLoss_G: %.4f\tTime: %.4f'
                 % (epoch, num_epochs, i, len(dataloader),
-                    losses_d['D_total_loss'], losses_g['G_loss'], losses_d['D_real_loss'],time.time()-start))
+                    losses_d['D_total_loss'], losses_g['G_loss'],time.time()-start))
                 start=time.time()
                 
 
