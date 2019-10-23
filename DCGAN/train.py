@@ -88,7 +88,6 @@ def main(args):
         'd_optim_state':None
     }
 
-    img_list=[]
 
     for epoch in range(num_epochs):
         start=time.time()
@@ -98,23 +97,23 @@ def main(args):
             losses_g=generator_step(args,batch,netG,netD,gloss,optimizerG,device)
             
 
-        if i//args.print_every==0:
-            for k,v in sorted(losses_d):
-                checkpoint['D_losses'][k].append(v)
-            for k,v in sorted(losses_g):
-                checkpoint['G_losses'][k].append(v)
-            checkpoint['epcoch'].append(epoch)
-            checkpoint['d_state']=netD.state_dict()
-            checkpoint['d_optim_state'] = optimizerD.state_dict()
-            checkpoint['g_state']=netG.state_dict()
-            checkpoint['g_optim_state'] = optimizerG.state_dict()
-            if i % 50 == 0:
-            
-                print('[%d/%d][%d/%d]\tLoss_D_total: %.4f\tLoss_G: %.4f\tTime: %.4f'
-                  % (epoch, num_epochs, i, len(dataloader),
-                     losses_d['D_total_loss'], losses_g['G_loss'], losses_d['D_real_loss'],time.time()-start))
-                start=time.time()
-            torch.save(checkpoint, checkpoint_path)
+            if i//args.print_every==0:
+                for k,v in sorted(losses_d):
+                    checkpoint['D_losses'][k].append(v)
+                for k,v in sorted(losses_g):
+                    checkpoint['G_losses'][k].append(v)
+                checkpoint['epcoch'].append(epoch)
+                checkpoint['d_state']=netD.state_dict()
+                checkpoint['d_optim_state'] = optimizerD.state_dict()
+                checkpoint['g_state']=netG.state_dict()
+                checkpoint['g_optim_state'] = optimizerG.state_dict()
+                if i % 50 == 0:
+                
+                    print('[%d/%d][%d/%d]\tLoss_D_total: %.4f\tLoss_G: %.4f\tTime: %.4f'
+                    % (epoch, num_epochs, i, len(dataloader),
+                        losses_d['D_total_loss'], losses_g['G_loss'], losses_d['D_real_loss'],time.time()-start))
+                    start=time.time()
+                
 
         if epoch//val_epochs==0:
             noise=z=torch.randn(1,args.nz,1,1,device=device)
@@ -123,6 +122,7 @@ def main(args):
                 vutils.save_image(fake_img.data,
                 '%s/fake_samples_epoch_%s.png' % (val_dir, str(epoch)),
                 normalize=True)
+            torch.save(checkpoint, checkpoint_path)
 
 
 
