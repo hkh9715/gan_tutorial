@@ -98,6 +98,7 @@ def main(args):
             
 
             if i//args.print_every==0:
+                print(losses_d)
                 for k,v in sorted(losses_d):
                     checkpoint['D_losses'][k].append(v)
                 for k,v in sorted(losses_g):
