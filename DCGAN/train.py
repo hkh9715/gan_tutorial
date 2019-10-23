@@ -1,4 +1,5 @@
 import argparse
+import time
 import torch
 import torch.nn as nn
 from loader import data_loader
@@ -33,7 +34,7 @@ parser.add_argument('--num_epochs', default=100, type=int)
 parser.add_argument('--d_steps', default=2, type=int)
 parser.add_argument('--g_steps', default=2, type=int)
 
-parser.add_argument('--print_every', default=10, type=int)
+parser.add_argument('--print_every', default=1, type=int)
 parser.add_argument('--val_epochs',default=1,type=int)
 
 def weights_init(m):
@@ -90,8 +91,9 @@ def main(args):
     img_list=[]
 
     for epoch in range(num_epochs):
+        start=time.time()
         for i,batch in enumerate(dataloader):
-  
+            
             losses_d=discriminator_step(args,batch,netG,netD,dloss,optimizerD,device)
             losses_g=generator_step(args,batch,netG,netD,gloss,optimizerG,device)
             
@@ -107,10 +109,11 @@ def main(args):
             checkpoint['g_state']=netG.state_dict()
             checkpoint['g_optim_state'] = optimizerG.state_dict()
             if i % 50 == 0:
-                print('[%d/%d][%d/%d]\tLoss_D_total: %.4f\tLoss_G: %.4f'
+            
+                print('[%d/%d][%d/%d]\tLoss_D_total: %.4f\tLoss_G: %.4f\tTime: %.4f'
                   % (epoch, num_epochs, i, len(dataloader),
-                     losses_d['D_total_loss'], losses_g['G_loss'], losses_d['D_real_loss']))
-
+                     losses_d['D_total_loss'], losses_g['G_loss'], losses_d['D_real_loss'],time.time()-start))
+                start=time.time()
             torch.save(checkpoint, checkpoint_path)
 
         if epoch//val_epochs==0:
