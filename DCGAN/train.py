@@ -32,6 +32,7 @@ parser.add_argument('--d_steps', default=2, type=int)
 parser.add_argument('--g_steps', default=2, type=int)
 
 parser.add_argument('--print_every', default=10, type=int)
+parser.add_argument('--val_epochs',default=1,type=int)
 
 def weights_init(m):
     classname = m.__class__.__name__
@@ -68,6 +69,7 @@ def main(args):
     optimizerG = optim.Adam(netG.parameters(), lr=args.lr, betas=(args.beta1, 0.999))
 
     num_epochs=args.num_epochs
+    val_epochs=args.val_epochs
     dsteps=args.d_steps
     gsteps=args.g_steps
 
@@ -105,6 +107,12 @@ def main(args):
 
             torch.save(checkpoint, checkpoint_path)
 
+        if epoch//val_epochs==0:
+            noise=z=torch.randn(1,args.nz,1,1,device=device)
+            fake_img=Generator(z)
+
+
+
 def discriminator_step(args,batch,generator_,discriminator_,d_loss,opt_dis,device):
 
   
@@ -116,6 +124,7 @@ def discriminator_step(args,batch,generator_,discriminator_,d_loss,opt_dis,devic
     discriminator_.zero_grad()
     output = discriminator_(real_cpu).view(-1)
     # Calculate loss on all-real batch
+    print(output,label)
     errD_real = d_loss(output, label)
     # Calculate gradients for D in backward pass
     errD_real.backward()
