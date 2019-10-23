@@ -180,6 +180,8 @@ def generator_step(args,batch,generator_,discriminator_,g_loss,opt_gen,device):
 
     losses['G_loss']=errG.item()
 
+    return losses
+
 if __name__ == '__main__':
     args = parser.parse_args()
     main(args)
