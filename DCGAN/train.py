@@ -100,7 +100,7 @@ def main(args):
 
             if i//args.checkpoint_every==0:
                 print(losses_d)
-                
+                print(losses_g)
                 checkpoint['D_losses'][i].append(losses_d['D_total_loss'])
                 checkpoint['G_losses'][i].append(losses_g['G_loss'])
                 checkpoint['epcoch'][i].append(epoch)
