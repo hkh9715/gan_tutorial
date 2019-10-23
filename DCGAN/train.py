@@ -122,7 +122,7 @@ def main(args):
                 vutils.save_image(fake_img.data,
                 '%s/fake_samples_epoch_%s.png' % (val_dir, str(epoch)),
                 normalize=True)
-            torch.save(checkpoint, checkpoint_path)
+            torch.save(checkpoint, checkpoint_path+str(epoch))
 
 
 
