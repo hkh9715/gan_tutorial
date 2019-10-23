@@ -82,9 +82,9 @@ def main(args):
     checkpoint={
         'G_losses':defaultdict(list),
         'D_losses':defaultdict(list),
-        'g_state':defaultdict(list),
+        'g_state':None,
         'd_state':None,
-        'epoch':None,
+        'epoch':defaultdict(list),
         'g_optim_state':None,
         'd_optim_state':None
     }
