@@ -82,7 +82,7 @@ def main(args):
     checkpoint={
         'G_losses':defaultdict(list),
         'D_losses':defaultdict(list),
-        'g_state':None,
+        'g_state':defaultdict(list),
         'd_state':None,
         'epoch':None,
         'g_optim_state':None,
@@ -101,9 +101,9 @@ def main(args):
             if i//args.checkpoint_every==0:
                 print(losses_d)
                 
-                checkpoint['D_losses'].append(losses_d['D_total_loss'])
-                checkpoint['G_losses'].append(losses_g['G_loss'])
-                checkpoint['epcoch'].append(epoch)
+                checkpoint['D_losses'][i].append(losses_d['D_total_loss'])
+                checkpoint['G_losses'][i].append(losses_g['G_loss'])
+                checkpoint['epcoch'][i].append(epoch)
                 checkpoint['d_state']=netD.state_dict()
                 checkpoint['d_optim_state'] = optimizerD.state_dict()
                 checkpoint['g_state']=netG.state_dict()
