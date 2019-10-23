@@ -89,6 +89,7 @@ def main(args):
         'd_optim_state':None
     }
 
+    fixed_noise=torch.randn(1,args.nz,1,1,device=device) #generator_validation
 
     for epoch in range(num_epochs):
         start=time.time()
@@ -116,9 +117,9 @@ def main(args):
                 
 
         if epoch % val_epochs==0:
-            noise=z=torch.randn(1,args.nz,1,1,device=device)
+            
             with torch.no_grad():
-                fake_img=netG(z)
+                fake_img=netG(fixed_noise)
                 vutils.save_image(fake_img.data,
                 '%s/fake_samples_epoch_%s.png' % (val_dir, str(epoch)),
                 normalize=True)
