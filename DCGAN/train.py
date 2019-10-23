@@ -98,7 +98,7 @@ def main(args):
             losses_g=generator_step(args,batch,netG,netD,gloss,optimizerG,device)
             
 
-            if i//args.checkpoint_every==0:
+            if i % args.checkpoint_every==0:
                 checkpoint['D_losses'][i].append(losses_d['D_total_loss'])
                 checkpoint['G_losses'][i].append(losses_g['G_loss'])
                 checkpoint['epoch'][i].append(epoch)
@@ -115,7 +115,7 @@ def main(args):
                 start=time.time()
                 
 
-        if epoch//val_epochs==0:
+        if epoch % val_epochs==0:
             noise=z=torch.randn(1,args.nz,1,1,device=device)
             with torch.no_grad():
                 fake_img=netG(z)
