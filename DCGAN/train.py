@@ -36,6 +36,7 @@ parser.add_argument('--g_steps', default=2, type=int)
 
 parser.add_argument('--print_every', default=1, type=int)
 parser.add_argument('--val_epochs',default=1,type=int)
+parser.add_argument('--checkpoint_every', default=100, type=int)
 
 def weights_init(m):
     classname = m.__class__.__name__
@@ -97,23 +98,23 @@ def main(args):
             losses_g=generator_step(args,batch,netG,netD,gloss,optimizerG,device)
             
 
-            if i//args.print_every==0:
+            if i//args.checkpoint_every==0:
                 print(losses_d)
-                for k,v in sorted(losses_d):
-                    checkpoint['D_losses'][k].append(v)
-                for k,v in sorted(losses_g):
-                    checkpoint['G_losses'][k].append(v)
+                
+                checkpoint['D_losses'].append(losses_d['D_total_loss'])
+                checkpoint['G_losses'].append(losses_g['G_loss'])
                 checkpoint['epcoch'].append(epoch)
                 checkpoint['d_state']=netD.state_dict()
                 checkpoint['d_optim_state'] = optimizerD.state_dict()
                 checkpoint['g_state']=netG.state_dict()
                 checkpoint['g_optim_state'] = optimizerG.state_dict()
-                if i % 50 == 0:
-                
-                    print('[%d/%d][%d/%d]\tLoss_D_total: %.4f\tLoss_G: %.4f\tTime: %.4f'
-                    % (epoch, num_epochs, i, len(dataloader),
-                        losses_d['D_total_loss'], losses_g['G_loss'], losses_d['D_real_loss'],time.time()-start))
-                    start=time.time()
+
+            if i % args.print_every == 0:
+            
+                print('[%d/%d][%d/%d]\tLoss_D_total: %.4f\tLoss_G: %.4f\tTime: %.4f'
+                % (epoch, num_epochs, i, len(dataloader),
+                    losses_d['D_total_loss'], losses_g['G_loss'], losses_d['D_real_loss'],time.time()-start))
+                start=time.time()
                 
 
         if epoch//val_epochs==0:
