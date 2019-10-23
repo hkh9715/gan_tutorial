@@ -17,7 +17,7 @@ parser.add_argument('--checkpoint_dir',default=r'C:\\tensor_code\\GAN_code\\DCGA
 
 parser.add_argument('--num_work', default=2, type=int)
 parser.add_argument('--use_gpu', default=1, type=int)
-parser.add_argument('--gpu_num', default="0", type=str)
+parser.add_argument('--gpu_num', default="0", type=int)
 
 parser.add_argument('--nz', default=100, type=int)
 parser.add_argument('--ngf', default=64, type=int)
