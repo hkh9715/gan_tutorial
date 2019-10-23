@@ -5,6 +5,7 @@ from loader import data_loader
 from model import Generator,Discriminator
 from losses import gd_loss
 import torch.optim as optim
+import torchvision.utils as vutils
 from collections import defaultdict
 
 
@@ -14,6 +15,7 @@ parser.add_argument('--img_size', default=64, type=int)
 parser.add_argument('--batchsize', default=2, type=int)
 parser.add_argument('--dataroot', default=r'C:\\tensor_code\\GAN_code\\dataset\\celeba-dataset\\img_align_celeba', type=str)
 parser.add_argument('--checkpoint_dir',default=r'C:\\tensor_code\\GAN_code\\DCGAN', type=str)
+parser.add_argument('--val_dir',default=r'/content/drive/My Drive/LetsGAN/DCGAN/val_out', type=str)
 
 parser.add_argument('--num_work', default=2, type=int)
 parser.add_argument('--use_gpu', default=1, type=int)
@@ -73,6 +75,8 @@ def main(args):
     dsteps=args.d_steps
     gsteps=args.g_steps
 
+    val_dir=args.val_dir
+
     checkpoint={
         'G_losses':defaultdict(list),
         'D_losses':defaultdict(list),
@@ -82,6 +86,8 @@ def main(args):
         'g_optim_state':None,
         'd_optim_state':None
     }
+
+    img_list=[]
 
     for epoch in range(num_epochs):
         for i,batch in enumerate(dataloader):
@@ -109,7 +115,12 @@ def main(args):
 
         if epoch//val_epochs==0:
             noise=z=torch.randn(1,args.nz,1,1,device=device)
-            fake_img=Generator(z)
+            with torch.no_grad():
+                fake_img=Generator(z)
+                vutils.save_image(fake_img.data,
+                '%s/fake_samples_epoch_%s.png' % (val_dir, str(epoch)),
+                normalize=True)
+
 
 
 
@@ -124,7 +135,6 @@ def discriminator_step(args,batch,generator_,discriminator_,d_loss,opt_dis,devic
     discriminator_.zero_grad()
     output = discriminator_(real_cpu).view(-1)
     # Calculate loss on all-real batch
-    print(output,label)
     errD_real = d_loss(output, label)
     # Calculate gradients for D in backward pass
     errD_real.backward()
