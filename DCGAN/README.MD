@@ -1,4 +1,7 @@
-Pokemon Dataset from https://github.com/kvpratama/gan/tree/master/pokemon
+Pokemon Dataset from https://github.com/kvpratama/gan/tree/master/pokemon  
+  
+Output Images  
+![sample1](./output/generated_1.png)![sample2](./output/generated_2.png)![sample3](./output/generated_3.png)
 
 ### TODO
 1. Image Augmentation by Roation and etc
