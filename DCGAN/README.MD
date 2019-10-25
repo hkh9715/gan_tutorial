@@ -1,3 +1,5 @@
+Pokemon Dataset from https://github.com/kvpratama/gan/tree/master/pokemon
+
 ### TODO
 1. Image Augmentation by Roation and etc
 
