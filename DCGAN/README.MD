@@ -1,6 +1,6 @@
 Pokemon Dataset from https://github.com/kvpratama/gan/tree/master/pokemon  
   
-### Output Images  
+### Generated Images  
 ![sample1](./output/generated_1.png)![sample2](./output/generated_2.png)![sample3](./output/generated_3.png)
 
 ### TODO
